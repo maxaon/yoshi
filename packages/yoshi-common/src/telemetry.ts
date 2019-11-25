@@ -28,4 +28,7 @@ export async function collectData() {
     action: isTypescriptProject ? 'ts' : 'js',
     label: config.name,
   });
+
+  // Since we call `process.exit()` directly we have to wait
+  return new Promise(resolve => setImmediate(resolve));
 }
