@@ -1,3 +1,4 @@
+const path = require('path');
 const { expect } = require('chai');
 const { killSpawnProcessAndHisChildren } = require('yoshi-helpers/utils');
 const tp = require('../../../test-helpers/test-phases');
@@ -104,10 +105,10 @@ describe('Aggregator: Start', () => {
           WNP_TEST_RPC_PORT: '3002',
           WNP_TEST_PETRI_PORT: '3003',
           WIX_BOOT_LABORATORY_URL: 'http://localhost:3003',
-          APP_CONF_DIR: './target/dev/configs',
-          APP_LOG_DIR: './target/dev/logs',
-          APP_PERSISTENT_DIR: './target/dev/persistent',
-          APP_TEMPL_DIR: './templates',
+          APP_CONF_DIR: path.join(test.tmp, './target/dev/configs'),
+          APP_LOG_DIR: path.join(test.tmp, './target/dev/logs'),
+          APP_PERSISTENT_DIR: path.join(test.tmp, './target/dev/persistent'),
+          APP_TEMPL_DIR: path.join(test.tmp, './templates'),
           NEW_RELIC_LOG_LEVEL: 'warn',
         };
 

@@ -190,6 +190,7 @@ export default class DevEnvironment {
     https,
     port,
     enableClientHotUpdates,
+    cwd = process.cwd(),
   }: {
     webpackConfigs: [
       webpack.Configuration,
@@ -201,11 +202,13 @@ export default class DevEnvironment {
     https: boolean;
     port: number;
     enableClientHotUpdates: boolean;
+    cwd?: string;
   }): Promise<DevEnvironment> {
     const [clientConfig, serverConfig] = webpackConfigs;
 
     const serverProcess = await ServerProcess.create({
       serverFilePath,
+      cwd,
     });
 
     // Add client hot entries

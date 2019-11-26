@@ -1,6 +1,6 @@
 {
   "name": "jest-yoshi-preset",
-  "version": "4.21.9",
+  "version": "4.21.10",
   "description": "jest configuration for a yoshi fullstack project",
   "main": "index.js",
   "types": "types.d.ts",
@@ -37,7 +37,7 @@
     "ts-jest": "^24.0.0",
     "wait-port": "^0.2.2",
     "yoshi-config": "4.21.9",
-    "yoshi-helpers": "4.21.9",
+    "yoshi-helpers": "4.21.10",
     "yoshi-server-tools": "4.21.9"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 {
   "name": "yoshi-common",
-  "version": "4.21.9",
+  "version": "4.21.10",
   "keywords": [
     "yoshi",
     "common"
@@ -93,6 +93,6 @@
     "worker-loader": "2.0.0",
     "xmldoc": "1.1.2",
     "yoshi-config": "4.21.9",
-    "yoshi-helpers": "4.21.9"
+    "yoshi-helpers": "4.21.10"
   }
 }

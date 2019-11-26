@@ -50,6 +50,7 @@ export default class ServerProcess {
 
     const bootstrapEnvironmentParams = getDevelopmentEnvVars({
       port: PORT,
+      cwd: this.cwd,
     });
 
     this.child = child_process.fork(this.serverFilePath, [], {

@@ -1,5 +1,22 @@
 # Changelog
 
+## 4.21.10 (2019-11-26)
+
+#### :bug: Bug Fix
+
+- `yoshi-common`, `yoshi-flow-legacy`, `yoshi-flow-monorepo`, `yoshi-helpers`
+  - [#1720](https://github.com/wix/yoshi/pull/1720) resolve bootstrap env vars according to cwd for monorepo support ([@roymiloh](https://github.com/roymiloh))
+
+#### :nail_care: Polish
+
+- `yoshi-flow-legacy`
+  - [#1721](https://github.com/wix/yoshi/pull/1721) fix eslint not running on .tsx files ([@eranshabi](https://github.com/eranshabi))
+
+#### :house: Internal
+
+- `yoshi-flow-editor`
+  - [#1718](https://github.com/wix/yoshi/pull/1718) Use transpiled JavaScript in the yoshi-flow-editor's templates (instead of jsx) ([@deanshub](https://github.com/deanshub))
+
 ## 4.21.9 (2019-11-24)
 
 #### :bug: Bug Fix

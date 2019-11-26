@@ -1,5 +1,5 @@
 import fs from 'fs';
-import path from 'path';
+import { join } from 'path';
 import { NODE_PLATFORM_DEFAULT_CONFIGS_DIR } from 'yoshi-config/paths';
 
 export const getEnvVars = ({
@@ -7,11 +7,13 @@ export const getEnvVars = ({
   appConfDir,
   appLogDir,
   appPersistentDir,
+  appTmplDir = './templates',
 }: {
   port: number;
   appConfDir: string;
   appLogDir: string;
   appPersistentDir: string;
+  appTmplDir: string;
 }) => {
   const PORT = Number(port) || 3000;
   const GRPC_PORT = PORT + 1;
@@ -30,7 +32,7 @@ export const getEnvVars = ({
     APP_CONF_DIR: appConfDir,
     APP_LOG_DIR: appLogDir,
     APP_PERSISTENT_DIR: appPersistentDir,
-    APP_TEMPL_DIR: './templates',
+    APP_TEMPL_DIR: appTmplDir,
     NEW_RELIC_LOG_LEVEL: 'warn',
   };
 };
@@ -45,15 +47,17 @@ export const getDevelopmentEnvVars = ({
   // Check if the project has the default directory for loading node platform
   // configs. If it exists, the project is not using the `index-dev.js` pattern and we
   // keep the defaults. Otherwise, we inject our own defaults to keep boilerplate to a minimum.
-  if (fs.existsSync(path.join(cwd, NODE_PLATFORM_DEFAULT_CONFIGS_DIR))) {
+  if (fs.existsSync(join(cwd, NODE_PLATFORM_DEFAULT_CONFIGS_DIR))) {
     return {};
   }
 
   const envVars = getEnvVars({
     port,
-    appConfDir: process.env.APP_CONF_DIR || './target/dev/configs',
-    appLogDir: './target/dev/logs',
-    appPersistentDir: './target/dev/persistent',
+    appConfDir:
+      process.env.APP_CONF_DIR || join(cwd, 'target', 'dev', 'configs'),
+    appLogDir: join(cwd, 'target', 'dev', 'logs'),
+    appPersistentDir: join(cwd, 'target', 'dev', 'persistent'),
+    appTmplDir: join(cwd, 'templates'),
   });
 
   return envVars;

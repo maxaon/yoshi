@@ -101,6 +101,7 @@ const start: cliCommand = async function(argv, rootConfig, { apps, libs }) {
     port: pkg.config.servers.cdn.port,
     serverFilePath: serverEntry,
     enableClientHotUpdates: Boolean(pkg.config.hmr),
+    cwd: pkg.location,
   });
 
   devEnvironment.store.subscribe(state => {
