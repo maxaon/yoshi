@@ -6,6 +6,7 @@ import {
   DSL,
   RequestPayload,
 } from 'yoshi-server/types';
+import { createWixHeaders } from '@wix/headers';
 import { joinUrls } from './utils';
 
 type Options = {
@@ -34,18 +35,6 @@ export default class implements HttpClient {
     this.baseUrl = baseUrl;
   }
 
-  private getCookie(name: string) {
-    if (typeof document !== 'undefined') {
-      const parts = `; ${document.cookie}`.split(`; ${name}=`);
-      if (parts.length === 2) {
-        return parts
-          .pop()
-          ?.split(';')
-          .shift();
-      }
-    }
-  }
-
   async request<Result extends FunctionResult, Args extends FunctionArgs>({
     method: { fileName, functionName },
     args,
@@ -56,17 +45,15 @@ export default class implements HttpClient {
     headers?: { [index: string]: string };
   }): Promise<UnpackPromise<Result>> {
     const url = joinUrls(this.baseUrl, '/_api_');
-
+    const wixHeaders = createWixHeaders() as { [index: string]: string };
     const body: RequestPayload = { fileName, functionName, args };
-
-    const xsrfToken = this.getCookie('XSRF-TOKEN');
 
     const res = await fetch(url, {
       credentials: 'same-origin',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        ...(xsrfToken ? { 'x-xsrf-token': xsrfToken } : {}),
+        ...wixHeaders,
         ...headers,
       },
       body: JSON.stringify(body),
