@@ -4518,10 +4518,10 @@
   dependencies:
     tslib "^1.11.1"
 
-"@wix/headers@^1.2.0":
-  version "1.2.0"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@wix/headers/-/@wix/headers-1.2.0.tgz#1b5ed175dfb90456668d8f4b464b9459879ee3ec"
-  integrity sha1-G17Rdd+5BFZmjY9LRkuUWYee4+w=
+"@wix/headers@^1.4.0":
+  version "1.4.0"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@wix/headers/-/@wix/headers-1.4.0.tgz#0ab743c2e06f320015f3b1151136ef7479b2cce0"
+  integrity sha1-CrdDwuBvMgAV87EVETbvdHmyzOA=
 
 "@wix/native-components-infra@^1.0.668":
   version "1.0.764"
