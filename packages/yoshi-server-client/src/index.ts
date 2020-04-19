@@ -53,7 +53,8 @@ export default class implements HttpClient {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        ...wixHeaders,
+        // WixHeaders has ? for each key. Here, keys which are undefined will be filtered automatically
+        ...(wixHeaders as Record<string, string>),
         ...headers,
       },
       body: JSON.stringify(body),
