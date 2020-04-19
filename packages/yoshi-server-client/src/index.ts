@@ -6,7 +6,7 @@ import {
   DSL,
   RequestPayload,
 } from 'yoshi-server/types';
-import { createWixHeaders } from '@wix/headers';
+import { createHeaders } from '@wix/headers';
 import { joinUrls } from './utils';
 
 type Options = {
@@ -45,7 +45,7 @@ export default class implements HttpClient {
     headers?: { [index: string]: string };
   }): Promise<UnpackPromise<Result>> {
     const url = joinUrls(this.baseUrl, '/_api_');
-    const wixHeaders = createWixHeaders() as { [index: string]: string };
+    const wixHeaders = createHeaders();
     const body: RequestPayload = { fileName, functionName, args };
 
     const res = await fetch(url, {
