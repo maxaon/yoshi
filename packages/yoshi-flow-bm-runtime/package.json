@@ -3,6 +3,7 @@
   "version": "4.61.2",
   "description": "",
   "main": "./build/index.js",
+  "types": "./build/index.d.ts",
   "scripts": {},
   "keywords": [],
   "author": "Amit Dahan <amitda@wix.com>",
