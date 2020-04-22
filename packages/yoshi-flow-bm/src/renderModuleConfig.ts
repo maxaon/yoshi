@@ -22,14 +22,7 @@ export default ({ pages, moduleId, config: { topology } }: FlowBMModel) => {
     ).pageComponentId,
     pageComponents,
 
-    config: {
-      topology: {
-        staticsUrl: {
-          artifactId,
-        },
-        ...topology,
-      },
-    },
+    config: { topology },
     bundles: [
       {
         file: {

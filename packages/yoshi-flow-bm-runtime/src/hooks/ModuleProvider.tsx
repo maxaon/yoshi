@@ -4,9 +4,7 @@ import { TModuleParams } from '@wix/business-manager-api';
 export const ModuleContext = createContext<IBMModuleParams | null>(null);
 
 export type IERBConfig<C, T> = {
-  topology: {
-    staticsUrl: string;
-  } & T;
+  topology: T;
 } & C;
 
 export interface IBMModuleParams<
