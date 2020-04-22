@@ -4,7 +4,7 @@ import { getProjectArtifactId } from 'yoshi-helpers/build/utils';
 import { constantCase } from 'constant-case';
 import { FlowBMModel } from './createFlowBMModel';
 
-export default ({ pages, moduleId }: FlowBMModel) => {
+export default ({ pages, moduleId, config: { topology } }: FlowBMModel) => {
   const artifactId = `com.wixpress.${getProjectArtifactId()}`;
   const pageComponents = pages.map(({ componentId, componentName, route }) => ({
     pageComponentId: componentId,
@@ -27,6 +27,7 @@ export default ({ pages, moduleId }: FlowBMModel) => {
         staticsUrl: {
           artifactId,
         },
+        ...topology,
       },
     },
     bundles: [

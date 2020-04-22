@@ -8,15 +8,22 @@ import { MODULE_CONFIG_PATH } from './constants';
 export interface FlowBMConfig {
   moduleId: string;
   routeNamespace: string;
+  topology: Record<string, any>;
 }
 
 export function readModuleConfig(cwd: string): FlowBMConfig {
-  const config = readJsonSilent(path.resolve(cwd, MODULE_CONFIG_PATH));
+  const {
+    moduleId = getProjectArtifactId(cwd)!,
+    routeNamespace = '',
+    topology = {},
+  }: Partial<FlowBMConfig> = readJsonSilent(
+    path.resolve(cwd, MODULE_CONFIG_PATH),
+  );
 
   return {
-    moduleId: getProjectArtifactId(cwd)!,
-    routeNamespace: '',
-    ...config,
+    moduleId,
+    routeNamespace,
+    topology,
   };
 }
 

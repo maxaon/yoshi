@@ -6,6 +6,7 @@ import {
   readExportedComponentConfig,
   readMethodConfig,
   readPageConfig,
+  FlowBMConfig,
 } from './config';
 import {
   EXPORTED_COMPONENTS_PATTERN,
@@ -35,6 +36,7 @@ export interface FlowBMModel {
   methods: Array<MethodModel>;
   moduleInitPath?: string;
   localePath?: string;
+  config: FlowBMConfig;
 }
 
 export default function createFlowBMModel(cwd = process.cwd()): FlowBMModel {
@@ -107,6 +109,7 @@ export default function createFlowBMModel(cwd = process.cwd()): FlowBMModel {
 
   return {
     moduleId: config.moduleId,
+    config,
     pages,
     exportedComponents,
     methods,
