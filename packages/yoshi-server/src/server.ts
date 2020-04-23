@@ -67,7 +67,6 @@ export default class Server {
 
   public handle: RequestHandler = async (req, res, next): Promise<void> => {
     try {
-      req.url = req.url.replace('/api/_api_', '/_api_');
       const { pathname } = parseUrl(req.url as string, true);
 
       for (const { handler, route } of this.routes) {
