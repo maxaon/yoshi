@@ -14,14 +14,14 @@ module.exports = {
       const { bmApp, app } = await environment({ withRandomPorts: true });
       await app.start();
       await bmApp.start();
-      globalObject.testKitEnv = bmApp;
+      globalObject.testKitBMApp = bmApp;
       globalObject.testKitApp = app;
-      // in tests we can just await testKitEnv.getUrl();
+      // in tests we can just await testKitBMApp.getUrl();
     },
     teardown: async ({ globalObject }) => {
       // take the env we created at setup() and stop it
-      if (globalObject.testKitEnv) {
-        await globalObject.testKitEnv.stop();
+      if (globalObject.testKitBMApp) {
+        await globalObject.testKitBMApp.stop();
         await globalObject.testKitApp.stop();
       }
     },

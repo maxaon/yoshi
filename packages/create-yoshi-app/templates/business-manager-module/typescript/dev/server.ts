@@ -1,7 +1,7 @@
-const testKitEnv = require('./environment');
+const { environment } = require('./environment');
 
 (async () => {
-  const { bmApp, app } = await testKitEnv.environment();
+  const { bmApp, app } = await environment();
   await bmApp.start();
   await app.start();
 

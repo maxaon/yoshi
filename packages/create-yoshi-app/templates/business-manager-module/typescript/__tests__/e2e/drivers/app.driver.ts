@@ -9,7 +9,9 @@ export const appDriver = () => {
     navigateToApp: async () => {
       const chanceInstance = new chance.Chance();
       const metaSiteId = chanceInstance.guid();
-      await page.goto(await testKitEnv.getUrl(`${metaSiteId}/{%projectName%}`));
+      await page.goto(
+        await testKitBMApp.getUrl(`${metaSiteId}/{%projectName%}`),
+      );
     },
     getAppTitleText: async () => {
       await waitForVisibilityOf('h2');

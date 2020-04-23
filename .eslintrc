@@ -98,7 +98,7 @@
       },
       "globals": {
         "app": false,
-        "testKitEnv": false
+        "testKitBMApp": false
       }
     }
   ]
