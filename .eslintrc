@@ -97,8 +97,7 @@
         "import/no-extraneous-dependencies": 0
       },
       "globals": {
-        "app": false,
-        "testKitBMApp": false
+        "app": false
       }
     }
   ]

@@ -72,7 +72,8 @@
   "eslintConfig": {
     "extends": "yoshi",
     "globals": {
-      "testKitBMApp": true
+      "testKitBMApp": true,
+      "testKitApp": true
     }
   }
 }
