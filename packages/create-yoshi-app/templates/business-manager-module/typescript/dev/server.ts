@@ -1,13 +1,13 @@
 const testKitEnv = require('./environment');
 
 (async () => {
-  const { env, app } = await testKitEnv.environment();
-  await env.start();
+  const { bmApp, app } = await testKitEnv.environment();
+  await bmApp.start();
   await app.start();
 
   // We need to stop the testkit explicitly, since it's running in a different process
   const stopTestKit = () => {
-    env.stop();
+    bmApp.stop();
     app.stop();
   };
 

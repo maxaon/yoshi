@@ -1,10 +1,9 @@
+import testkit from '@wix/wix-bootstrap-testkit';
 import {
   createTestkit,
   testkitConfigBuilder,
   anAppConfigBuilder,
 } from '@wix/business-manager/dist/testkit';
-
-const testkit = require('@wix/wix-bootstrap-testkit');
 
 interface TestKitConfigOptions {
   withRandomPorts: boolean;
@@ -12,7 +11,7 @@ interface TestKitConfigOptions {
 
 const bootstrapServer = () => {
   return testkit.app(require.resolve('yoshi-server/bootstrap'), {
-    env: process.env,
+    env: process.env as Record<string, string>,
   });
 };
 
@@ -45,10 +44,10 @@ const getTestKitConfig = async (
 };
 
 export const environment = async (envConfig?: TestKitConfigOptions) => {
-  const env = createTestkit(await getTestKitConfig(envConfig));
+  const bmApp = createTestkit(await getTestKitConfig(envConfig));
   const app = bootstrapServer();
   return {
     app,
-    env,
+    bmApp,
   };
 };

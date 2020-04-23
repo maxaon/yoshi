@@ -11,10 +11,10 @@ const { environment } = require('./dev/environment');
 module.exports = {
   bootstrap: {
     setup: async ({ globalObject }) => {
-      const { env, app } = await environment({ withRandomPorts: true });
+      const { bmApp, app } = await environment({ withRandomPorts: true });
       await app.start();
-      await env.start();
-      globalObject.testKitEnv = env;
+      await bmApp.start();
+      globalObject.testKitEnv = bmApp;
       globalObject.testKitApp = app;
       // in tests we can just await testKitEnv.getUrl();
     },

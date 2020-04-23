@@ -1,10 +1,9 @@
+import testkit from '@wix/wix-bootstrap-testkit';
 import {
   createTestkit,
   testkitConfigBuilder,
   anAppConfigBuilder,
 } from '@wix/business-manager/dist/testkit';
-
-const testkit = require('@wix/wix-bootstrap-testkit');
 
 const bootstrapServer = () => {
   return testkit.app(require.resolve('yoshi-server/bootstrap'), {
@@ -41,10 +40,10 @@ const getTestKitConfig = async (
 };
 
 export const environment = async envConfig => {
-  const env = createTestkit(await getTestKitConfig(envConfig));
+  const bmApp = createTestkit(await getTestKitConfig(envConfig));
   const app = bootstrapServer();
   return {
     app,
-    env,
+    bmApp,
   };
 };
