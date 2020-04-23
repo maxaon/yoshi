@@ -7,6 +7,7 @@ import {
   npmInstall,
   gitCommit,
 } from './utils';
+import runDevCenterRegistrationPrompt from './dev-center-registration/runPrompt';
 import runPrompt from './runPrompt';
 import generateProject from './generateProject';
 import TemplateModel from './TemplateModel';
@@ -37,6 +38,11 @@ export default async ({
     // If we don't have template model injected, ask the user
     // to answer the questions and generate one for us
     templateModel = await runPrompt(workingDir);
+  }
+
+  if (templateModel.templateDefinition.name === 'flow-editor') {
+    const devCenterModel = await runDevCenterRegistrationPrompt();
+    console.log(devCenterModel);
   }
 
   console.log(
