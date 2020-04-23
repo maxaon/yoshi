@@ -11,15 +11,18 @@ const { environment } = require('./dev/environment');
 module.exports = {
   bootstrap: {
     setup: async ({ globalObject }) => {
-      const env = await environment({ withRandomPorts: true });
+      const { env, app } = await environment({ withRandomPorts: true });
+      await app.start();
       await env.start();
       globalObject.testKitEnv = env;
+      globalObject.testKitApp = app;
       // in tests we can just await testKitEnv.getUrl();
     },
     teardown: async ({ globalObject }) => {
       // take the env we created at setup() and stop it
       if (globalObject.testKitEnv) {
         await globalObject.testKitEnv.stop();
+        await globalObject.testKitApp.stop();
       }
     },
   },
