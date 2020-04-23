@@ -16,7 +16,7 @@ const getTestKitConfig = async (
 ) => {
   const serverUrl = 'http://localhost:3200/';
   const serviceId = 'com.wixpress.{%projectName%}';
-  const path = '../app-config-templates/module_{%PROJECT_NAME%}.json';
+  const path = './app-config-templates/module_{%PROJECT_NAME%}.json';
 
   const moduleConfig = anAppConfigBuilder()
     .fromJsonTemplate(require(path)) //  replace this line with the next once your config is merged
