@@ -22,6 +22,7 @@
     "./node_modules/yoshi/types.d.ts",
     "./node_modules/jest-yoshi-preset/types.d.ts",
     "./src/external-types.d.ts",
+    "./src/test-types.d.ts",
     "./src/module.ts",
     "./dev/server.ts"
   ]
