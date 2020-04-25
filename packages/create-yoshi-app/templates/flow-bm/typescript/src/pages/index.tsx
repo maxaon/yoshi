@@ -1,10 +1,10 @@
 import React, { FC, useEffect } from 'react';
 import { notifyViewFinishedLoading } from '@wix/business-manager-api';
-import { useFedops, useTranslate } from 'yoshi-flow-bm-runtime';
+import { useFedops } from 'yoshi-flow-bm-runtime';
+import t from '../../translations/en.json';
 
 const Index: FC = () => {
   const fedops = useFedops();
-  const t = useTranslate();
 
   useEffect(() => {
     fedops.appLoaded();
@@ -13,7 +13,7 @@ const Index: FC = () => {
 
   return (
     <div>
-      <h1>{t('app.title')}</h1>
+      <h1>{t['app.title']}</h1>
     </div>
   );
 };
