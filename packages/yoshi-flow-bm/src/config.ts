@@ -12,12 +12,14 @@ export interface FlowBMConfig {
 }
 
 export function readModuleConfig(cwd: string): FlowBMConfig {
+  const artifactId = getProjectArtifactId(cwd)!;
+
   const {
-    moduleId = getProjectArtifactId(cwd)!,
+    moduleId = artifactId,
     routeNamespace = '',
     topology = {
       staticsUrl: {
-        artifactId: getProjectArtifactId(cwd)!,
+        artifactId,
       },
     },
   }: Partial<FlowBMConfig> = readJsonSilent(path.join(cwd, MODULE_CONFIG_PATH));
