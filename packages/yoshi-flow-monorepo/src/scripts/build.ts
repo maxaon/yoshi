@@ -15,6 +15,7 @@ import {
 } from 'yoshi-config/build/paths';
 import { inTeamCity as checkInTeamCity } from 'yoshi-helpers/build/queries';
 import { copyTemplates } from 'yoshi-common/build/copy-assets';
+import { stripOrganization } from 'yoshi-helpers/build/utils';
 import { cliCommand } from '../bin/yoshi-monorepo';
 import {
   createClientWebpackConfig,
@@ -66,6 +67,30 @@ const build: cliCommand = async function(argv, rootConfig, { apps, libs }) {
     );
 
     process.exit(0);
+  }
+
+  console.log(JSON.stringify(args._));
+
+  const appNames = args._;
+
+  if (appNames.length) {
+    appNames.forEach(appName => {
+      const pkg = apps.find(pkg => stripOrganization(pkg.name) === appName);
+
+      if (!pkg) {
+        console.log(
+          chalk.red(
+            `Could not find an app with the name of ${appName} to build`,
+          ),
+        );
+        console.log();
+        console.log(chalk.red('Aborting'));
+
+        return process.exit(1);
+      }
+    });
+
+    apps = apps.filter(app => appNames.includes(stripOrganization(app.name)));
   }
 
   await buildPkgs([...libs, ...apps]);
