@@ -20,9 +20,7 @@ export function readModuleConfig(cwd: string): FlowBMConfig {
         artifactId: getProjectArtifactId(cwd)!,
       },
     },
-  }: Partial<FlowBMConfig> = readJsonSilent(
-    path.resolve(cwd, MODULE_CONFIG_PATH),
-  );
+  }: Partial<FlowBMConfig> = readJsonSilent(path.join(cwd, MODULE_CONFIG_PATH));
 
   return {
     moduleId,
