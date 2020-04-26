@@ -1,6 +1,6 @@
 import { PackageJson } from 'read-pkg';
 import defaultsDeep from 'lodash/defaultsDeep';
-import { stripOrganization } from '../utils';
+import { stripOrganization } from 'yoshi-helpers/build/utils';
 import {
   Config,
   InitialConfig,

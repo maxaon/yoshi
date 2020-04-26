@@ -40,6 +40,7 @@ import TpaStyleWebpackPlugin from 'tpa-style-webpack-plugin';
 // @ts-ignore - missing types
 import { mdsvex } from 'mdsvex';
 import WebpackBar from 'webpackbar';
+import { stripOrganization } from 'yoshi-helpers/build/utils';
 import { resolveNamespaceFactory } from './@stylable/node';
 import StylableWebpackPlugin from './@stylable/webpack-plugin';
 import shouldTranspileFile from './utils/should-transpile-file';
@@ -81,10 +82,6 @@ function addExtensionPrefix(filePath: string, prefix: string) {
 
 function prependNameWith(filename: string, prefix: string) {
   return filename.replace(/\.[0-9a-z]+$/i, match => `.${prefix}${match}`);
-}
-
-function stripOrganization(name: string): string {
-  return name.slice(name.indexOf('/') + 1);
 }
 
 function getProgressBarInfo(

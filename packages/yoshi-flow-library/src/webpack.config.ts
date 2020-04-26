@@ -2,8 +2,8 @@
 import webpack from 'webpack';
 import { createBaseWebpackConfig } from 'yoshi-common/build/webpack.config';
 import { isSingleEntry } from 'yoshi-helpers/build/queries';
+import { stripOrganization } from 'yoshi-helpers/build/utils';
 import { Config, BundleConfig } from './config/types';
-import { stripOrganization } from './utils';
 
 export function createClientWebpackConfig(
   config: Config,

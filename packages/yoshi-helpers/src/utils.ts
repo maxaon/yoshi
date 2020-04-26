@@ -244,3 +244,6 @@ export const killSpawnProcessAndHisChildren = (child: ChildProcess) => {
 
 export const readJsonSilent = (jsonPath: string): Record<string, any> =>
   !fs.existsSync(jsonPath) ? {} : fs.readJSONSync(jsonPath);
+
+export const stripOrganization = (name: string) =>
+  name.slice(name.indexOf('/') + 1);
