@@ -1,9 +1,24 @@
-import prompts, { PromptObject, Answers } from 'prompts';
+import prompts, { PromptObject, Answers, Choice } from 'prompts';
 
 export interface ExtendedPromptObject<T extends string>
   extends PromptObject<T> {
-  shouldTerminate?: (answers: Answers<string>) => boolean;
-  before?: (answers: Answers<string>) => Promise<void> | void;
+  // shouldTerminate?: (answers: Answers<string>) => boolean;
+  before?: <C extends any>(
+    answers: Answers<string>,
+    context: C,
+  ) => Promise<any> | any;
+  after?: <C extends any>(
+    answers: Answers<string>,
+    context: C,
+  ) => Promise<any> | any;
+  next?: <C extends any>(
+    answers: Answers<string>,
+    context: C,
+  ) => Array<ExtendedPromptObject<T>>;
+  getDynamicChoices?: <C extends any>(
+    answers: Answers<string>,
+    context: C,
+  ) => Promise<Array<Choice>>;
 }
 
 // Currently `prompts` package evaluates all values with function type 👿.
@@ -12,16 +27,21 @@ const promptifyQuestion = (
   question: ExtendedPromptObject<string>,
 ): PromptObject<string> => {
   const promptifiedQuestion = { ...question };
-  delete promptifiedQuestion.shouldTerminate;
+  // delete promptifiedQuestion.shouldTerminate;
   delete promptifiedQuestion.before;
+  delete promptifiedQuestion.after;
+  delete promptifiedQuestion.next;
+  delete promptifiedQuestion.getDynamicChoices;
 
   return promptifiedQuestion;
 };
 
-export default async (
+async function run<T>(
   questions: Array<ExtendedPromptObject<string>>,
-): Promise<Answers<string>> => {
-  let answers: Answers<string> = {};
+  context: T,
+  prevAnswers: Answers<string> = {},
+): Promise<Answers<string>> {
+  let answers: Answers<string> = prevAnswers;
 
   const onCancel = () => {
     throw new Error('Aborted');
@@ -29,18 +49,39 @@ export default async (
 
   for (const question of questions) {
     if (question.before) {
-      await question.before(answers);
+      const beforeResult = await question.before<T>(answers, context);
+      if (beforeResult) {
+        answers = { ...answers, ...beforeResult };
+      }
+    }
+    if (question.getDynamicChoices) {
+      question.choices = await question.getDynamicChoices(answers, context);
     }
     const answer = await prompts([promptifyQuestion(question)], {
       onCancel,
     });
     answers = { ...answers, ...answer };
-    if (question.shouldTerminate && question.shouldTerminate(answers)) {
-      break;
-    }
-  }
 
+    if (question.after) {
+      const afterResult = await question.after(answers, context);
+      answers = { ...answers, ...afterResult };
+    }
+    if (question.next) {
+      const nextAnswers = await run(
+        question.next(answers, context),
+        context,
+        answers,
+      );
+      answers = { ...answers, ...nextAnswers };
+    }
+    // if (question.shouldTerminate && question.shouldTerminate(answers)) {
+    //   break;
+    // }
+  }
+  console.log(answers, 'answers');
   return answers;
-};
+}
+
+export default run;
 
 export { Answers } from 'prompts';

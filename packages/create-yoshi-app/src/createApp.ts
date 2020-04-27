@@ -41,7 +41,7 @@ export default async ({
   }
 
   if (templateModel.templateDefinition.name === 'flow-editor') {
-    const devCenterModel = await runDevCenterRegistrationPrompt();
+    const devCenterModel = await runDevCenterRegistrationPrompt(templateModel);
     console.log(devCenterModel);
   }
 

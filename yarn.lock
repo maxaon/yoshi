@@ -4040,7 +4040,7 @@
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@types/url-join/-/url-join-4.0.0.tgz#72eff71648a429c7d4acf94e03780e06671369bd"
   integrity sha1-cu/3FkikKcfUrPlOA3gOBmcTab0=
 
-"@types/uuid-validate@^0.0.3":
+"@types/uuid-validate@^0.0.1":
   version "0.0.1"
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@types/uuid-validate/-/uuid-validate-0.0.1.tgz#b4eedecbd9db25851490d65a58f13feaa89dd509"
   integrity sha1-tO7ey9nbJYUUkNZaWPE/6qid1Qk=
@@ -6725,7 +6725,7 @@ aws4@^1.2.1, aws4@^1.6.0, aws4@^1.8.0:
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/aws4/-/aws4-1.9.1.tgz#7e33d8f7d449b3f673cd72deb9abdc552dbe528e"
   integrity sha1-fjPY99RJs/ZzzXLeuavcVS2+Uo4=
 
-axios@0.19.2, axios@^0.19.0:
+axios@0.19.2, axios@^0.19.0, axios@^0.19.2:
   version "0.19.2"
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/axios/-/axios-0.19.2.tgz#3ea36c5d8818d0d5f8a8a97a6d36b86cdc00cb27"
   integrity sha1-PqNsXYgY0NX4qKl6bTa4bNwAyyc=

@@ -27,6 +27,7 @@
     "dev": "ts-node scripts/dev.js"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "chalk": "^2.4.1",
     "commander": "^2.16.0",
     "constant-case": "^2.0.0",

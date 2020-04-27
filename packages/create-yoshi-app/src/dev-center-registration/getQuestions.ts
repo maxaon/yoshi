@@ -1,15 +1,21 @@
-import openBrowser from 'react-dev-utils/openBrowser';
-import validateUUID from 'uuid-validate';
+// import openBrowser from 'react-dev-utils/openBrowser';
 import { ExtendedPromptObject } from './extended-prompts';
+import { createApp, createComponent, getApps } from './appService';
 
 const WILL_REGISTER = 2;
 const WAS_REGISTERED = 1;
-const WONT_REGISTER = 0;
-const OPEN_BROWSER_DELAY = 3000;
-const DEV_CENTER_URL = 'https://dev.wix.com/dc3/my-apps';
+const WIDGET_OUT_OF_IFRAME = 'WIDGET_OUT_OF_IFRAME';
+const PAGE_OUT_OF_IFRAME = 'PAGE_OUT_OF_IFRAME';
+const SKIP_REGISTER_COMPONENT = 'SKIP_REGISTER_COMPONENT';
 
-const getComponentsUrl = (appDefinitionId: any) => {
-  return `${DEV_CENTER_URL}/${appDefinitionId}/components`;
+const formatAppOption = (app: {
+  name: string;
+  appId: string;
+}): { title: string; value: string } => {
+  return {
+    title: app.name,
+    value: app.appId,
+  };
 };
 
 export default (): Array<ExtendedPromptObject<string>> => {
@@ -17,71 +23,83 @@ export default (): Array<ExtendedPromptObject<string>> => {
     {
       type: 'select',
       name: 'appRegistrationState',
-      shouldTerminate(answers) {
-        return !!answers.appRegistrationState.value;
-      },
-      message: 'Do you want to register your app in dev center?',
+      message: 'Is your app registered in dev center?',
       choices: [
-        { title: 'Yes', value: WILL_REGISTER },
+        { title: 'Yes', value: WAS_REGISTERED },
         {
-          title: 'No, I have already registered my app in Dev Center',
-          value: WAS_REGISTERED,
+          title: 'No',
+          value: WILL_REGISTER,
         },
-        { title: "No, I'll register it later", value: WONT_REGISTER },
       ],
-    },
-    {
-      type: 'text',
-      name: 'appDefinitionId',
-      async before(answers) {
-        const actionName =
-          answers.appRegistrationState === WILL_REGISTER
-            ? 'create a new app and copy'
-            : 'copy';
-        console.log(
-          `In a moment Wix Dev Center page will be opened.\nPlease ${actionName} \`App ID\` which is located under the App Name`,
-        );
-        const delayCallback = () => {
-          if (!openBrowser(DEV_CENTER_URL)) {
-            console.log(
-              `There is some troubles with opening the browser.\nPlease go to ${DEV_CENTER_URL}, ${actionName} \`App ID\` which is located under the App Name`,
-            );
-          }
-        };
-
-        // We want people to read the message before we navigate him to the browser window
-        setTimeout(delayCallback, OPEN_BROWSER_DELAY);
+      next(answers) {
+        if (answers.appRegistrationState === WILL_REGISTER) {
+          return [
+            {
+              type: 'text',
+              name: 'appName',
+              async after(answers) {
+                return createApp(answers.appName);
+              },
+              validate(value: string) {
+                return !!value;
+              },
+              message: 'Name of the app:',
+            },
+            {
+              type: 'select',
+              name: 'registerComponentType',
+              message: 'Register a component',
+              choices: [
+                { title: 'Register new Widget', value: WIDGET_OUT_OF_IFRAME },
+                { title: 'Register new Page', value: PAGE_OUT_OF_IFRAME },
+                {
+                  title: 'Finish registration',
+                  value: null,
+                },
+              ],
+              next(answers) {
+                if (answers.registerComponentType) {
+                  return [
+                    {
+                      type: 'text',
+                      name: 'componentName',
+                      async after(answers) {
+                        return {
+                          [answers.componentName]: await createComponent({
+                            name: answers.componentName,
+                            appId: answers.appId,
+                            type: answers.registerComponentType,
+                          }),
+                        };
+                      },
+                      validate(value: string) {
+                        return !!value;
+                      },
+                      message: 'Name of the component:',
+                    },
+                  ];
+                }
+                return [];
+              },
+            },
+          ];
+        } else if (answers.appRegistrationState === WAS_REGISTERED) {
+          return [
+            {
+              type: 'select',
+              name: 'appId',
+              message: 'Pick the app you want to use',
+              async before(answers, context) {
+                context.apps = await getApps();
+              },
+              async getDynamicChoices(answers, context) {
+                return context.apps.map(formatAppOption);
+              },
+            },
+          ];
+        }
+        return [];
       },
-      validate(value) {
-        // No tricks here!
-        return validateUUID(value);
-      },
-      message: 'App ID:',
-    },
-    {
-      type: 'text',
-      name: 'componentId',
-      async before(answers) {
-        console.log(
-          `Please create a new \`Widget our of iFrame\` and copy \`Component ID\` which is located under the Component Name`,
-        );
-        const delayCallback = () => {
-          const componentsUrl = getComponentsUrl(answers.appDefinitionId);
-          if (!openBrowser(componentsUrl)) {
-            console.log(
-              `There is some troubles with opening the browser.\nPlease go to ${componentsUrl}, create \`Widget our of iFrame\` and copy \`Component ID\` which is located under the App Name`,
-            );
-          }
-        };
-
-        // We want people to read the message before we navigate him to the browser window
-        setTimeout(delayCallback, OPEN_BROWSER_DELAY);
-      },
-      validate(value) {
-        // No tricks here!
-        return validateUUID(value);
-      },
-      message: 'App ID:',
     },
   ];
 };
