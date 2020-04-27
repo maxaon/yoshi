@@ -19,6 +19,7 @@ export interface ExtendedPromptObject<T extends string>
     answers: Answers<string>,
     context: C,
   ) => Promise<Array<Choice>>;
+  repeatUntill?: (answers: Answers<string>) => boolean;
 }
 
 // Currently `prompts` package evaluates all values with function type 👿.
@@ -31,6 +32,7 @@ const promptifyQuestion = (
   delete promptifiedQuestion.before;
   delete promptifiedQuestion.after;
   delete promptifiedQuestion.next;
+  delete promptifiedQuestion.repeatUntill;
   delete promptifiedQuestion.getDynamicChoices;
 
   return promptifiedQuestion;
@@ -74,11 +76,12 @@ async function run<T>(
       );
       answers = { ...answers, ...nextAnswers };
     }
-    // if (question.shouldTerminate && question.shouldTerminate(answers)) {
-    //   break;
-    // }
+    if (question.repeatUntill && !question.repeatUntill(answers)) {
+      const nextAnswers = await run([question], context, answers);
+      answers = { ...answers, ...nextAnswers };
+    }
   }
-  console.log(answers, 'answers');
+  // console.log(answers, 'answers');
   return answers;
 }
 

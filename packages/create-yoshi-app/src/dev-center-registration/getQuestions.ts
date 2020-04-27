@@ -6,7 +6,6 @@ const WILL_REGISTER = 2;
 const WAS_REGISTERED = 1;
 const WIDGET_OUT_OF_IFRAME = 'WIDGET_OUT_OF_IFRAME';
 const PAGE_OUT_OF_IFRAME = 'PAGE_OUT_OF_IFRAME';
-const SKIP_REGISTER_COMPONENT = 'SKIP_REGISTER_COMPONENT';
 
 const formatAppOption = (app: {
   name: string;
@@ -57,6 +56,9 @@ export default (): Array<ExtendedPromptObject<string>> => {
                   value: null,
                 },
               ],
+              repeatUntill(answers) {
+                return !answers.registerComponentType;
+              },
               next(answers) {
                 if (answers.registerComponentType) {
                   return [
@@ -64,13 +66,17 @@ export default (): Array<ExtendedPromptObject<string>> => {
                       type: 'text',
                       name: 'componentName',
                       async after(answers) {
-                        return {
-                          [answers.componentName]: await createComponent({
+                        if (!answers.components) {
+                          answers.components = [];
+                        }
+                        answers.components.push(
+                          await createComponent({
                             name: answers.componentName,
                             appId: answers.appId,
                             type: answers.registerComponentType,
                           }),
-                        };
+                        );
+                        return answers;
                       },
                       validate(value: string) {
                         return !!value;

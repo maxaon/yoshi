@@ -29,13 +29,15 @@ export const createComponent = ({
   name: string;
   appId: string;
   type: string;
-}): Promise<{ componentId: string }> => {
-  console.log(appId, 'appIdappIdappIdappId');
-
+}): Promise<{ id: string; type: string; name: string }> => {
   return axios
-    .post<{ componentId: string }>(getUrl(`apps/${appId}/components`), {
+    .post<{ compId: string }>(getUrl(`apps/${appId}/components`), {
       compName: name,
       compType: type,
     })
-    .then(res => res.data);
+    .then(res => ({
+      id: res.data.compId,
+      type,
+      name,
+    }));
 };

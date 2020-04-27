@@ -1,20 +1,25 @@
 export interface DevCenterComponentModel {
   name: string;
   id: string;
+  type: string;
 }
 
 export default class TemplateModel {
   readonly appDefinitionId: string;
+  readonly appName: string;
   readonly components: Array<DevCenterComponentModel>;
 
   constructor({
-    appDefinitionId,
+    appId,
+    appName,
     components,
   }: {
-    appDefinitionId: string;
+    appId: string;
+    appName: string;
     components: Array<DevCenterComponentModel>;
   }) {
-    this.appDefinitionId = appDefinitionId;
+    this.appDefinitionId = appId;
+    this.appName = appName;
     this.components = components;
   }
 
