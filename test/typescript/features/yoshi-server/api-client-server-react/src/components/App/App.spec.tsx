@@ -8,7 +8,7 @@ import App from './App';
 
 const mocks = [
   {
-    request: { method: greet, args: ['Yaniv'] },
+    request: { fn: greet, variables: ['Yaniv'] },
     result: () => ({
       greeting: 'Hello Yaniv',
     }),

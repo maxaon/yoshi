@@ -10,8 +10,8 @@ import { HttpClient } from 'yoshi-server-client';
 
 type Mock<Result extends FunctionResult, Args extends FunctionArgs> = {
   request: {
-    method: DSL<Result, Args>;
-    args: Args;
+    fn: DSL<Result, Args>;
+    variables: Args;
   };
   result: () => OptionalPromise<Result>;
 };
@@ -43,8 +43,8 @@ export default class implements HttpClient {
     }
 
     const mock = this.mocks.find(({ request }) => {
-      if (request.method === method) {
-        return isEqual(args, request.args);
+      if (request.fn === method) {
+        return isEqual(args, request.variables);
       }
     });
 
