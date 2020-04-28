@@ -69,8 +69,6 @@ const build: cliCommand = async function(argv, rootConfig, { apps, libs }) {
     process.exit(0);
   }
 
-  console.log(JSON.stringify(args._));
-
   const appNames = args._;
 
   if (appNames.length) {
