@@ -2,6 +2,7 @@ import arg from 'arg';
 import chalk from 'chalk';
 import DevEnvironment from 'yoshi-common/build/dev-environment';
 import { getServerStartFile } from 'yoshi-helpers/build/server-start-file';
+import { stripOrganization } from 'yoshi-helpers/build/utils';
 import { cliCommand } from '../bin/yoshi-monorepo';
 import {
   createClientWebpackConfig,
@@ -68,10 +69,18 @@ const start: cliCommand = async function(argv, rootConfig, { apps, libs }) {
 
   if (!pkg) {
     console.log(
-      chalk.red(`Could not find an app with the name of ${appName} to start`),
+      `Could not find an app with the name of ${chalk.cyan(appName)}!\n`,
+    );
+    console.log('Apps found:');
+    console.log(
+      `  ${apps
+        .map(({ name }) => name)
+        .map(stripOrganization)
+        .map(name => chalk.cyanBright(name))
+        .join(', ')}`,
     );
     console.log();
-    console.log(chalk.red('Aborting'));
+    console.log(chalk.red('Aborting...'));
 
     return process.exit(1);
   }

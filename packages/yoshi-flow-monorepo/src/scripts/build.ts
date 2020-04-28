@@ -77,12 +77,19 @@ const build: cliCommand = async function(argv, rootConfig, { apps, libs }) {
 
       if (!pkg) {
         console.log(
-          chalk.red(
-            `Could not find an app with the name of ${appName} to build`,
-          ),
+          `Could not find an app with the name of ${chalk.cyan(appName)}!\n`,
+        );
+
+        console.log('Apps found:');
+        console.log(
+          `  ${apps
+            .map(({ name }) => name)
+            .map(stripOrganization)
+            .map(name => chalk.cyanBright(name))
+            .join(', ')}`,
         );
         console.log();
-        console.log(chalk.red('Aborting'));
+        console.log(chalk.red('Aborting...'));
 
         return process.exit(1);
       }
