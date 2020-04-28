@@ -56,7 +56,7 @@ const build: cliCommand = async function(argv, rootConfig, { apps, libs }) {
         Compiles the application for production deployment
 
       Usage
-        $ yoshi-monorepo build
+        $ yoshi-monorepo build [app-name ...]
 
       Options
         --help, -h      Displays this message
